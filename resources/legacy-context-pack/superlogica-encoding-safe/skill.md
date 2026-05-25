@@ -1,40 +1,40 @@
 # superlogica-encoding-safe
 
 ## Objetivo
-Evitar corrupção de dados por conversão incorreta de encoding.
-Muitos arquivos legados podem estar em ISO-8859-1.
+Evitar corrupção de caracteres em arquivos legados.
 
 ## Regra principal
-Nunca converter encoding de um arquivo sem autorização explícita.
+Nunca converter encoding de arquivo sem autorização.
 
-Se o arquivo está em ISO-8859-1, edite em ISO-8859-1.
-Se está em UTF-8, edite em UTF-8.
+## Quando usar
+Antes de editar arquivos PHP legados, especialmente quando houver acentos, cedilha ou strings de mensagem.
 
-## Identificar encoding
+## Fluxo
+1. Verificar encoding do arquivo.
+2. Manter o encoding original.
+3. Editar apenas o necessário.
+4. Conferir se caracteres especiais não foram corrompidos.
+
+## Comando útil
 
 ```bash
 file arquivo.php
 ```
 
-## Editando arquivo existente
-- Manter o mesmo encoding.
-- Não reescrever o arquivo inteiro sem necessidade.
-- Não misturar encodings.
-
-## Criando arquivo novo
-- Verificar encoding dos arquivos vizinhos.
-- Criar no mesmo padrão do módulo.
-
-## JSON/API
-Antes de retornar dados ISO em JSON, converter conforme padrão do projeto.
+## Regras
+- Se o arquivo está em ISO-8859-1, manter ISO-8859-1.
+- Se está em UTF-8, manter UTF-8.
+- Não reescrever arquivo inteiro sem necessidade.
+- Não usar conversão automática sem certeza da origem.
 
 ## Anti-patterns
-- Salvar arquivo ISO como UTF-8 sem autorização
-- Usar iconv/mb_convert_encoding sem certeza do encoding
-- Adicionar declare encoding em arquivo legado
-- Remover mb_internal_encoding de código que já usa
+- Salvar arquivo ISO como UTF-8 sem autorização.
+- Rodar conversão em massa.
+- Misturar strings de encodings diferentes.
+- Alterar encoding junto com mudança de regra de negócio.
 
 ## Checklist
 - [ ] Verifiquei o encoding
 - [ ] Mantive o encoding original
-- [ ] Não corrompi strings com acentos
+- [ ] Não corrompi acentos
+- [ ] Não fiz conversão desnecessária

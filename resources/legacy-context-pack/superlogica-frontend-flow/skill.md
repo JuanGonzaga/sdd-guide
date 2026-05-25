@@ -1,61 +1,28 @@
 # superlogica-frontend-flow
 
 ## Objetivo
-Garantir que Forms, Grids, modais e JavaScript sigam os padrões do projeto.
-O frontend legado é PHP-driven: comportamentos são declarados no PHP, não em JS solto.
+Garantir que Forms, Grids, modais e JavaScript sigam o padrão do projeto.
+
+## Regras
+- Não colocar regra de negócio pesada no JavaScript.
+- Não reinventar modal se o framework já fornece padrão.
+- Não fazer submit manual se o Form do projeto já resolve.
+- Não criar JS solto quando existe classe/padrão.
+- Evitar inline JavaScript em views.
 
 ## Forms
+Forms devem declarar comportamento, action e método seguindo o framework.
 
 ```php
-class Forms_Contratos_Detalhes extends Superlogica_Form {
-
-    public function init() {
-        parent::init();
-
-        $location = new Superlogica_Location();
-        $location->setController('contratos')
-                 ->setAction('editar')
-                 ->setApi(false);
-
-        $this->addAttribs(array(
-            'action' => $location->toString(),
-            'method' => 'put',
-            'aposCarregar' => 'Form.carregarComissionados'
-        ));
-    }
-}
-```
-
-## Comportamentos JS
-```php
-'comportamentos' => 'Form.formatar Form.numeric'
+$this->addAttribs(array(
+    'action' => $location->toString(),
+    'method' => 'put',
+    'aposCarregar' => 'Form.callback'
+));
 ```
 
 ## Grids
-```php
-class Grids_Contratos extends Superlogica_Js_Grid {
-
-    public function __construct($dados) {
-        parent::__construct($dados);
-
-        $this->_colunas = array(
-            'cliente' => array(
-                'label' => 'Cliente',
-                'tamanho' => '25%',
-            ),
-        );
-    }
-}
-```
-
-## Modais
-Usar o padrão do framework:
-- form renderizado em div oculta
-- botão abre via `addFormDialog`
-- não criar modal Bootstrap ou modal manual
-
-## JavaScript
-Usar classes do framework quando existirem.
+Grids devem estender a classe base do projeto.
 
 ```javascript
 var Grids_Contratos = new Class({
@@ -67,9 +34,14 @@ var Grids_Contratos = new Class({
 });
 ```
 
-## Anti-patterns
-- Lógica de negócio em JS
-- Submit manual via $.ajax quando o form já resolve
-- Modal Bootstrap/manual
-- JS inline em .phtml
-- Reinventar grid/form
+## Modais
+Usar o padrão:
+- form em div oculta
+- botão abre via helper do framework
+- callback após salvar quando necessário
+
+## Checklist
+- [ ] Respeitei Form/Grid do projeto
+- [ ] Não criei modal manual
+- [ ] Não coloquei regra de negócio no JS
+- [ ] Mantive callbacks padronizados

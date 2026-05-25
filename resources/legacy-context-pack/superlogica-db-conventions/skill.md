@@ -1,38 +1,31 @@
 # superlogica-db-conventions
 
 ## Objetivo
-Garantir que queries, nomes de tabela, nomes de coluna e acesso ao banco sigam as convenções do projeto.
+Garantir que queries, tabelas e colunas sigam convenções do projeto.
 
-## Convenção de nomenclatura
+## Prefixos comuns
 
-| Prefixo | Tipo |
-|---------|------|
-| ST_ | String / Varchar |
-| ID_ | Inteiro / FK |
-| DT_ | Date / Datetime |
-| FL_ | Flag / Boolean |
-| NM_ | Numérico |
+| Prefixo | Uso |
+|---|---|
+| ST_ | String / texto curto |
+| ID_ | Identificador / FK |
+| DT_ | Data / datetime |
+| FL_ | Flag / boolean |
+| NM_ | Número / quantidade |
 | VL_ | Valor monetário |
 | TX_ | Texto longo |
 | BL_ | Binário |
 
-Todo campo deve terminar com a abreviação da tabela.
+## Regras
+- Não inventar nome de campo.
+- Conferir campos existentes antes de usar.
+- Usar query builder quando for o padrão do projeto.
+- Usar bind em filtros.
+- Evitar `SELECT *` em código de produção.
+- Não concatenar variável em SQL.
+- Respeitar multi-tenant pelo mecanismo do framework.
 
-Exemplos:
-- `ID_CONTRATO_CTR`
-- `ST_NOME_CLI`
-- `DT_VENCIMENTO_CBR`
-- `VL_DESCONTO_CBR`
-
-## Tabelas
-Tabelas devem seguir o padrão MAIÚSCULO com underline.
-
-```sql
-SELECT * FROM CONTRATOS_SEGUROS
-```
-
-## Queries
-Usar query builder / Zend_Db_Select.
+## Exemplo
 
 ```php
 $select = $model->select()
@@ -40,15 +33,15 @@ $select = $model->select()
     ->where('FL_ATIVO_CTR = ?', 1);
 ```
 
-## Nunca fazer
+## Anti-pattern
+
 ```php
 $sql = "SELECT * FROM CONTRATOS WHERE ID_STATUS_CTR = " . $status;
 ```
 
-## Anti-patterns
-- Inventar nome de coluna
-- SQL string concatenada
-- Filtro manual de tenant
-- SELECT * em produção
-- Lógica de negócio no Model
-- Tabelas em minúsculo
+## Checklist
+- [ ] Verifiquei os campos reais
+- [ ] Usei bind
+- [ ] Evitei SQL concatenado
+- [ ] Respeitei multi-tenant
+- [ ] Listei campos explicitamente

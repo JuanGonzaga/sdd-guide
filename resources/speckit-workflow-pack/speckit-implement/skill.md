@@ -1,22 +1,23 @@
 # speckit-implement
 
 ## Objetivo
-Executa as tasks da tasks.md, fase por fase, marcando [X] conforme conclui.
+Executa as tasks planejadas.
 
 ## Quando usar
-Use esta skill dentro do fluxo SDD/Speckit, após a etapa anterior estar revisada.
+Use dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.
 
 ## Comportamento
-Implementar apenas o que está em tasks.md. Parar se uma task crítica falhar ou se houver inconsistência com spec/plan.
+Implementar apenas o que está em `tasks.md` e marcar progresso.
 
 ## Regras
 - Não inventar regra de negócio.
 - Não pular etapa do fluxo.
 - Não implementar antes de existir spec, plan e tasks.
-- Marcar explicitamente dúvidas e ambiguidades.
+- Registrar dúvidas explicitamente.
 - Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.
 
 ## Artefatos esperados
+
 ```text
 specs/<feature>/
   spec.md
@@ -29,4 +30,4 @@ specs/<feature>/
 ```
 
 ## Critério de qualidade
-A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda a motivação, o escopo e o próximo passo sem depender de conversa solta.
+A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.

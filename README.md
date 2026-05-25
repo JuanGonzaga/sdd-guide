@@ -1,262 +1,106 @@
-# Claude Code + SDD + Speckit Presentation
+# Claude Code + SDD + Speckit
 
-Landing page interativa criada para apresentar ao time uma abordagem estruturada de desenvolvimento com IA utilizando **Claude Code**, **Specification-Driven Development (SDD)**, **Speckit** e skills customizadas para projetos legados.
+Landing page interativa para apresentar um fluxo de desenvolvimento com IA baseado em Claude Code, Specification-Driven Development (SDD), Speckit e skills customizadas.
 
 ## Objetivo
 
-Mostrar que IA não precisa ser usada no modo "vibe coding".
-
-A proposta aqui é transformar Claude Code em um **ambiente operacional de engenharia**, com fluxo previsível, rastreável e reutilizável.
+Mostrar como transformar o uso de IA em um processo mais previsível, rastreável e revisável.
 
 A apresentação cobre:
 
-- O problema de usar IA sem processo
-- Como Claude Code opera
-- O que é Specification-Driven Development (SDD)
-- Como o Speckit transforma o processo em execução
-- Uso de skills customizadas
-- Fluxo Jira → PRD → Spec → Plan → Tasks → Implement → Review
-- Packs reais de skills para download
+- problema de usar IA sem método
+- Claude Code como agente operacional
+- SDD como método de trabalho
+- Speckit como pipeline executável
+- skills de contexto para projetos legados
+- fluxo de PRD, spec, plan, tasks, implement e review
+- packs de skills para download
 
----
-
-# Estrutura do projeto
+## Estrutura
 
 ```text
 .
 ├── index.html
-├── resources/
-│   ├── legacy-context-pack.zip
-│   ├── speckit-workflow-pack.zip
-│   └── productivity-pack.zip
-```
-
----
-
-# O que existe em cada pack
-
-## Legacy Context Pack
-
-Skills focadas em projetos legados:
-
-- `legacy-project-context`
-- `superlogica-controller-rules`
-- `superlogica-service-repository`
-- `superlogica-db-conventions`
-- `superlogica-frontend-flow`
-- `superlogica-encoding-safe`
-
-Objetivo:
-
-Evitar que o agente:
-
-- invente regra de negócio
-- modernize código sem necessidade
-- quebre padrões internos
-- corrompa encoding
-- ignore convenções de banco
-
----
-
-## Speckit Workflow Pack
-
-Pipeline completo de SDD:
-
-- `speckit-specify`
-- `speckit-clarify`
-- `speckit-plan`
-- `speckit-tasks`
-- `speckit-implement`
-- `speckit-analyze`
-- `speckit-checklist`
-- `speckit-constitution`
-- `speckit-taskstoissues`
-
-Objetivo:
-
-Transformar desenvolvimento orientado por especificação em processo executável.
-
-Fluxo:
-
-```text
-PRD
- ↓
-Specify
- ↓
-Clarify
- ↓
-Plan
- ↓
-Tasks
- ↓
-Implement
- ↓
-Analyze / Checklist
-```
-
----
-
-## Productivity Pack
-
-Skills auxiliares para acelerar trabalho diário:
-
-- `jira-card-analysis`
-- `jira-to-prd`
-- `pr-review-diff`
-
-Inclui:
-
-- parser ADF (`parse_adf.py`)
-- geração de PRD
-- análise estruturada de cards
-- revisão técnica de diff
-
----
-
-# Como subir no GitHub Pages
-
-## 1. Criar repositório
-
-Exemplo:
-
-```text
-claude-code-sdd-presentation
-```
-
----
-
-## 2. Subir os arquivos
-
-A estrutura precisa ficar assim:
-
-```text
-repo/
-├── index.html
+├── README.md
 └── resources/
+    ├── legacy-context-pack.zip
+    ├── speckit-workflow-pack.zip
+    └── productivity-pack.zip
 ```
 
----
+## Packs disponíveis
 
-## 3. Ativar GitHub Pages
+### Legacy Context Pack
 
-No repositório:
+Skills para orientar o Claude Code em projetos legados:
 
-**Settings**
-→ **Pages**
+- legacy-project-context
+- superlogica-controller-rules
+- superlogica-service-repository
+- superlogica-db-conventions
+- superlogica-frontend-flow
+- superlogica-encoding-safe
 
-Configuração:
+### Speckit Workflow Pack
 
-```text
-Source: Deploy from a branch
-Branch: main
-Folder: /(root)
-```
+Skills para executar o fluxo SDD:
 
-Salvar.
+- speckit-specify
+- speckit-clarify
+- speckit-plan
+- speckit-tasks
+- speckit-implement
+- speckit-analyze
+- speckit-checklist
+- speckit-constitution
+- speckit-taskstoissues
 
----
+### Productivity Pack
 
-## 4. Acessar
+Skills para produtividade no dia a dia:
 
-GitHub irá gerar algo como:
+- jira-card-analysis
+- jira-to-prd
+- pr-review-diff
 
-```text
-https://SEU-USUARIO.github.io/claude-code-sdd-presentation/
-```
+Também inclui o helper `parse_adf.py`.
 
----
+## Como publicar no GitHub Pages
 
-# Como usar internamente
+1. Suba `index.html`, `README.md` e a pasta `resources/` na raiz do repositório.
+2. Vá em **Settings → Pages**.
+3. Configure:
+   - Source: `Deploy from a branch`
+   - Branch: `main`
+   - Folder: `/root`
+4. Salve e aguarde a publicação.
 
-A apresentação foi pensada para times que:
-
-- começaram a usar Claude Code
-- ainda trabalham com prompts soltos
-- não utilizam metodologia
-- sofrem com retrabalho e inconsistência
-
-Pode ser usada como:
-
-- onboarding técnico
-- workshop interno
-- playbook operacional
-- base para padronização do time
-
----
-
-# Instalação local das skills
-
-Exemplo:
+## Como instalar uma skill localmente
 
 ```bash
 mkdir -p ~/.claude/skills
 ```
 
-Estrutura:
+Exemplo de estrutura:
 
 ```text
 ~/.claude/skills/
   legacy-project-context/
     skill.md
-
-  jira-to-prd/
-    skill.md
-
-  pr-review-diff/
-    skill.md
-
-  speckit-specify/
-    skill.md
 ```
 
-Depois:
+Depois abra o Claude Code dentro do projeto:
 
 ```bash
 claude
 ```
 
----
+## Stack
 
-# Segurança
-
-Os packs incluídos nesta versão foram sanitizados.
-
-Mesmo assim, antes de compartilhar internamente ou externamente, revise:
-
-- URLs privadas
-- e-mails corporativos
-- tokens
-- paths internos
-- regras de negócio confidenciais
-- integrações específicas da empresa
-
----
-
-# Filosofia
-
-IA sem processo acelera erro.
-
-IA com processo acelera engenharia.
-
----
-
-# Stack
-
-Projeto simples, sem dependências:
+Projeto estático simples:
 
 - HTML
 - CSS
 - JavaScript puro
 
-Compatível com:
-
-- GitHub Pages
-- Netlify
-- Vercel
-- qualquer host estático
-
----
-
-# Créditos
-
-Projeto criado para evangelização interna de desenvolvimento orientado por IA com processo, rastreabilidade e consistência.
+Não há dependências externas.

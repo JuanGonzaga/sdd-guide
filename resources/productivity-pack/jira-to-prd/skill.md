@@ -1,32 +1,28 @@
 # jira-to-prd
 
 ## Objetivo
-Transformar informações brutas de uma demanda em um PRD funcional claro, estruturado e revisável para uso manual posterior.
+Transformar demanda bruta em PRD funcional, claro, estruturado e revisável.
 
 ## Entradas aceitas
 - ID de card Jira
-- número isolado
+- descrição manual
 - XML
 - screenshots
 - links Figma
 - comentários do usuário
 - regras de negócio complementares
-- contexto manual
+- contexto técnico
 
-## Dependências
-Quando um ID de card Jira for informado, usar primeiro a skill `jira-card-analysis`.
+## Regras
+- Não implementar código.
+- Não gerar plano técnico completo.
+- Não gerar tasks.
+- Não inventar regra de negócio.
+- Não assumir comportamento sem evidência.
+- Quando faltar informação, marcar como `Informação não confirmada`.
 
-## Regras obrigatórias
-- Não implementar código
-- Não gerar plan.md
-- Não gerar tasks.md
-- Não criar solução técnica completa
-- Não inventar regra de negócio
-- Não assumir comportamento sem evidência
-- Se faltar informação, marcar como `Informação não confirmada`
-
-## Saída
-Criar um arquivo markdown em:
+## Saída esperada
+Criar arquivo markdown em:
 
 ```text
 ~/SDD/PRD-<CARD>.md

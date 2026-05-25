@@ -1,38 +1,21 @@
 # superlogica-controller-rules
 
 ## Objetivo
-Garantir que controllers sigam o padrão exato do projeto. Controllers são finos:
-recebem HTTP, delegam, retornam. Toda lógica vai para Service ou Helper.
+Garantir que controllers sejam finos: recebem parâmetros, delegam para Service/Helper e retornam resposta padronizada.
 
 ## Quando usar
 Ao criar ou editar qualquer arquivo em `Controllers/`.
 
-## Estrutura obrigatória
+## Regras
+- Controller não deve conter regra de negócio.
+- Controller não deve acessar banco diretamente.
+- Controller não deve instanciar Repository diretamente.
+- Controller deve delegar para Service ou Helper.
+- Controller deve retornar resposta padronizada.
+- Não usar `$_GET`, `$_POST` ou `$_REQUEST` diretamente.
 
-### Herança
-```php
-class ContratosController extends Superlogica_Controller_Action
-```
+## Exemplo de estrutura
 
-Nunca estender `Zend_Controller_Action` diretamente.
-
-### Recebimento de parâmetros
-```php
-$params = array_shift($this->_request->getParam('todos'));
-```
-
-Parâmetros chegam encapsulados em `todos`. Nunca usar `$_GET`, `$_POST` diretamente.
-
-### Actions por verbo HTTP
-```php
-public function indexAction()
-public function postAction()
-public function putAction()
-public function deleteAction()
-public function sincronizarAction()
-```
-
-### Delegação obrigatória
 ```php
 public function indexAction() {
     $params = array_shift($this->_request->getParam('todos'));
@@ -44,16 +27,16 @@ public function indexAction() {
 }
 ```
 
-## Anti-patterns proibidos
-- Lógica de negócio no controller
-- Acesso direto ao banco dentro do controller
-- `echo`, `print_r`, `var_dump` ou `die()` em produção
-- Retornar array cru sem resposta padronizada
-- Instanciar Repository diretamente no controller
-- Usar `$_GET`, `$_POST`, `$_REQUEST`
+## Anti-patterns
+- `echo`, `print_r`, `var_dump`, `die`
+- SQL dentro do controller
+- validações complexas dentro da action
+- retorno de array cru
+- controller grande demais
 
 ## Checklist
-- [ ] Parâmetros recebidos via request do framework
-- [ ] Controller delega para Service ou Helper
-- [ ] Retorno padronizado
-- [ ] Nenhuma lógica de negócio no controller
+- [ ] Recebe parâmetros pelo padrão do framework
+- [ ] Delega para Service/Helper
+- [ ] Retorna resposta padronizada
+- [ ] Não contém regra de negócio
+- [ ] Não acessa banco diretamente

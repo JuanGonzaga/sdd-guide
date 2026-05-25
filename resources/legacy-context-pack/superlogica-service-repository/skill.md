@@ -1,12 +1,43 @@
 # superlogica-service-repository
 
 ## Objetivo
-Garantir que Services e Repositories sigam o padrão exato do projeto.
-Service = lógica de negócio. Repository = acesso a dados. Nunca misturar.
+Separar regra de negócio de acesso a dados.
 
-## Services
+Service = regra de negócio.
+Repository = acesso a dados.
 
-### Estrutura básica
+## Quando usar
+Ao criar ou editar arquivos em `Services/` ou `Repositories/`.
+
+## Service
+Responsabilidades:
+- validar regra de negócio
+- validar permissões quando aplicável
+- coordenar fluxo
+- chamar repositories
+- preparar resposta para controller
+
+## Repository
+Responsabilidades:
+- montar query
+- chamar API externa quando aplicável
+- persistir dados
+- retornar dados crus ou estruturados
+- não decidir regra de negócio
+
+## Estrutura sugerida
+
+```text
+Services/<Grupo>/<Entidade>.php
+
+Repositories/<Grupo>/
+├── <Entidade>.php
+└── Zend/
+    └── <Entidade>.php
+```
+
+## Exemplo de Service
+
 ```php
 class Services_Contratos_Contrato {
 
@@ -18,7 +49,7 @@ class Services_Contratos_Contrato {
         $this->repositoryContrato = $repositoryContrato;
     }
 
-    public static function initServiceContrato(): Services_Contratos_Contrato {
+    public static function initServiceContrato() {
         return new Services_Contratos_Contrato(
             new Repositories_Contratos_Zend_Contrato()
         );
@@ -26,50 +57,10 @@ class Services_Contratos_Contrato {
 }
 ```
 
-### Regras
-- Service valida regra de negócio.
-- Service delega persistência ao Repository.
-- Service não monta SQL diretamente.
-- Exceptions devem seguir o padrão do projeto.
-
-## Repositories
-
-### Estrutura
-```text
-Repositories/<Grupo>/
-├── <Entidade>.php
-└── Zend/
-    └── <Entidade>.php
-```
-
-### Interface
-```php
-interface Repositories_Contratos_Contrato {
-    public function buscarPorId($id);
-}
-```
-
-### Implementação
-```php
-class Repositories_Contratos_Zend_Contrato
-    implements Repositories_Contratos_Contrato {
-
-    public function buscarPorId($id) {
-        $model = new Models_Contratos();
-        $select = $model->select()
-            ->from('CONTRATOS', array('ID_CONTRATO_CTR'))
-            ->where('ID_CONTRATO_CTR = ?', $id);
-
-        $row = $model->fetchRow($select);
-        return $row ? $row->toArray() : array();
-    }
-}
-```
-
-## Anti-patterns proibidos
-- Service sem factory method
+## Anti-patterns
+- Service montando SQL
+- Repository validando regra de negócio
 - Repository sem interface
-- SQL string concatenada
-- Lógica de negócio no Repository
+- Service sem factory method
 - Acesso à session dentro do Repository
-- Filtro manual de tenant quando o framework já resolve
+- SQL string concatenada

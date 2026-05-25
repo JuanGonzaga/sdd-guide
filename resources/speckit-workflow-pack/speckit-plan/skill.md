@@ -1,22 +1,23 @@
 # speckit-plan
 
 ## Objetivo
-Gera artefatos de design: plan.md, data-model.md, contracts/ e research.md.
+Gera plano de implementação e artefatos técnicos.
 
 ## Quando usar
-Use esta skill dentro do fluxo SDD/Speckit, após a etapa anterior estar revisada.
+Use dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.
 
 ## Comportamento
-Transformar spec revisada em plano técnico. Registrar stack, arquitetura, riscos, entidades, contratos e decisões.
+Definir estratégia, arquitetura, contratos, entidades, riscos e decisões.
 
 ## Regras
 - Não inventar regra de negócio.
 - Não pular etapa do fluxo.
 - Não implementar antes de existir spec, plan e tasks.
-- Marcar explicitamente dúvidas e ambiguidades.
+- Registrar dúvidas explicitamente.
 - Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.
 
 ## Artefatos esperados
+
 ```text
 specs/<feature>/
   spec.md
@@ -29,4 +30,4 @@ specs/<feature>/
 ```
 
 ## Critério de qualidade
-A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda a motivação, o escopo e o próximo passo sem depender de conversa solta.
+A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.

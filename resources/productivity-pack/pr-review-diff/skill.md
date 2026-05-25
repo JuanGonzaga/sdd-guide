@@ -1,30 +1,30 @@
 # pr-review-diff
 
 ## Objetivo
-Revisar PR de verdade, usando diff.
+Revisar PR com base em diff real.
 
-## Comportamento
-1. Fazer git fetch.
-2. Comparar branch atual com master/main ou branch informada.
-3. Rodar git diff.
-4. Listar arquivos alterados.
-5. Entender intenção da mudança.
-6. Procurar bugs, regressões, inconsistências e impactos colaterais.
+## Fluxo
+1. Atualizar referências remotas.
+2. Comparar branch atual com branch base.
+3. Listar arquivos alterados.
+4. Entender intenção da mudança.
+5. Procurar bugs, regressões e impactos colaterais.
+6. Sugerir testes manuais.
 
 ## Checklist
 - regra de negócio quebrada
 - condição invertida
-- tratamento de null/array vazio
+- null safety
+- array vazio
 - query perigosa
-- SQL injection/string concat
+- SQL injection
 - falta de bind
-- multi-tenant/licença
+- multi-tenant
 - compatibilidade com versão do PHP
 - JS legado quebrando tela/modal/grid
 - mudança que afeta fluxo antigo
 - duplicação aceitável vs abstração desnecessária
 - nomes confusos
-- testes manuais necessários
 
 ## Formato de saída
 

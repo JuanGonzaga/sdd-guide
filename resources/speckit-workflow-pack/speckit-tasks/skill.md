@@ -1,22 +1,23 @@
 # speckit-tasks
 
 ## Objetivo
-Gera tasks.md com tasks atômicas, numeradas e ordenadas por dependência.
+Quebra o plano em tasks atômicas.
 
 ## Quando usar
-Use esta skill dentro do fluxo SDD/Speckit, após a etapa anterior estar revisada.
+Use dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.
 
 ## Comportamento
-Quebrar plan.md em tasks T001, T002 etc. Marcar tasks paralelas com [P].
+Gerar `tasks.md` com tarefas ordenadas, pequenas e executáveis.
 
 ## Regras
 - Não inventar regra de negócio.
 - Não pular etapa do fluxo.
 - Não implementar antes de existir spec, plan e tasks.
-- Marcar explicitamente dúvidas e ambiguidades.
+- Registrar dúvidas explicitamente.
 - Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.
 
 ## Artefatos esperados
+
 ```text
 specs/<feature>/
   spec.md
@@ -29,4 +30,4 @@ specs/<feature>/
 ```
 
 ## Critério de qualidade
-A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda a motivação, o escopo e o próximo passo sem depender de conversa solta.
+A saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.
