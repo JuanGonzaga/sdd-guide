@@ -51,8 +51,8 @@ pre{white-space:pre-wrap;line-height:1.7;color:#dce7ff;margin:0}
 .card{transition:.25s}
 .card:hover{transform:translateY(-5px);background:var(--panel2);border-color:rgba(23,230,163,.35)}
 .pipeline{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 22px}
-.step{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--muted);padding:12px 16px;border-radius:99px;font-weight:900;cursor:pointer}
-.step.active,.step:hover{background:var(--secondary);color:#06110d}
+.step,.advanced-tab{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--muted);padding:12px 16px;border-radius:99px;font-weight:900;cursor:pointer}
+.step.active,.step:hover,.advanced-tab.active,.advanced-tab:hover{background:var(--secondary);color:#06110d}
 .panel{background:#050814;min-height:150px}
 .panel h3{color:var(--secondary)}
 code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,230,163,.1);color:var(--secondary)}
@@ -64,6 +64,16 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
 .prompt{position:relative;background:#050814}
 .prompt .copy{position:absolute;right:20px;top:20px}
 .prompt pre{padding-right:150px}
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.matrix-card{background:rgba(255,255,255,.045);border:1px solid var(--border);border-radius:22px;padding:20px}
+.matrix-card strong{color:var(--secondary);display:block;margin-bottom:8px}
+.advanced-panel pre{margin-top:22px;background:rgba(255,255,255,.045);border:1px solid var(--border);border-radius:18px;padding:18px;overflow:auto}
+.doc-line{margin-top:18px;color:var(--muted);line-height:1.6}
+.doc-line a{color:var(--secondary);font-weight:900}
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+.ref-card{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:22px;transition:.25s}
+.ref-card:hover{transform:translateY(-4px);background:var(--panel2);border-color:rgba(23,230,163,.35)}
+.ref-card small{color:var(--secondary);font-weight:900;text-transform:uppercase;letter-spacing:.08em}
 .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.75);z-index:99;padding:24px}
 .modal.open{display:grid}
 .modal-content{width:min(1000px,100%);max-height:82vh;overflow:auto;background:#070b14;border:1px solid var(--border);border-radius:26px;padding:26px}
@@ -72,35 +82,11 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
 .final{text-align:center;background:radial-gradient(circle at center,rgba(23,230,163,.16),transparent 34%),#050814}
 .final p{font-size:23px;color:var(--text);max-width:860px;margin:auto}
 @media(max-width:980px){
-  .hero,.grid{grid-template-columns:1fr}
+  .hero,.grid,.matrix,.ref-grid{grid-template-columns:1fr}
   .nav{align-items:flex-start;flex-direction:column}
   .prompt .copy{position:static;margin-bottom:16px}
   .prompt pre{padding-right:0}
 }
-
-.advanced-tab {
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,.06);
-  color: var(--muted);
-  padding: 12px 16px;
-  border-radius: 999px;
-  font-weight: 900;
-  cursor: pointer;
-}
-.advanced-tab.active,
-.advanced-tab:hover {
-  background: var(--secondary);
-  color: #06110d;
-}
-.advanced-panel pre {
-  margin-top: 22px;
-  background: rgba(255,255,255,.045);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 18px;
-  overflow: auto;
-}
-
 </style>
 </head>
 <body>
@@ -111,6 +97,7 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
   <a href="#skills">Skills</a>
   <a href="#resources">Resources</a>
   <a href="#avancado">Avançado</a>
+  <a href="#referencias">Referências</a>
   <a href="#playbook">Playbook</a>
 </nav>
 
@@ -170,19 +157,21 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
 <section class="section dark" id="speckit">
   <span class="tag">Speckit</span>
   <h2>As skills que tornam o SDD executável.</h2>
+  <p>O Speckit organiza o desenvolvimento em artefatos revisáveis: especificação, plano, tasks e implementação.</p>
   <div class="grid">
-    <article class="card"><code>/speckit-specify</code><p>Cria a spec focada no WHAT.</p></article>
-    <article class="card"><code>/speckit-clarify</code><p>Encontra ambiguidades antes do plano técnico.</p></article>
-    <article class="card"><code>/speckit-plan</code><p>Gera plano, arquitetura, contratos e decisões técnicas.</p></article>
-    <article class="card"><code>/speckit-tasks</code><p>Quebra o trabalho em tasks atômicas e ordenadas.</p></article>
-    <article class="card"><code>/speckit-implement</code><p>Executa as tasks e marca progresso.</p></article>
-    <article class="card"><code>/speckit-analyze</code><p>Audita consistência entre spec, plan e tasks.</p></article>
+    <article class="card"><code>/speckit.specify</code><p>Cria a spec focada no WHAT: escopo, comportamento esperado, cenários e critérios de aceite.</p></article>
+    <article class="card"><code>/speckit.clarify</code><p>Reduz ambiguidade antes do plano técnico. Use quando a demanda ainda permite interpretações diferentes.</p></article>
+    <article class="card"><code>/speckit.plan</code><p>Gera plano técnico, arquitetura, contratos, entidades, riscos e decisões.</p></article>
+    <article class="card"><code>/speckit.tasks</code><p>Quebra o plano em tasks atômicas, ordenadas e rastreáveis.</p></article>
+    <article class="card"><code>/speckit.implement</code><p>Executa as tasks já planejadas. Não deve ser o primeiro passo do fluxo.</p></article>
+    <article class="card"><code>/speckit.analyze</code><p>Valida consistência entre spec, plan e tasks antes da implementação.</p></article>
   </div>
 </section>
 
 <section class="section" id="skills">
   <span class="tag">Skills do projeto</span>
   <h2>Contexto vira regra operacional.</h2>
+  <p>Skills empacotam procedimentos repetíveis: revisão de PR, análise de Jira, regras do legado, checklist de segurança e fluxos de implementação.</p>
   <div class="grid">
     <article class="card"><h3>legacy-project-context</h3><p>Obriga o agente a buscar exemplos no código antes de propor solução.</p></article>
     <article class="card"><h3>controller-rules</h3><p>Garante controllers finos, delegação e resposta padronizada.</p></article>
@@ -199,54 +188,60 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
   <p>Os botões abaixo baixam arquivos ZIP com pastas de skills, cada uma contendo seu respectivo <code>skill.md</code>. O pack de produtividade também inclui o helper <code>parse_adf.py</code>.</p>
   <div class="note">Material complementar para acelerar a adoção do fluxo no dia a dia do time.</div>
   <div class="grid">
-    <article class="card"><h3>Legacy Context Pack</h3><p>6 skills para proteger projetos legados e evitar decisões fora do padrão.</p><div class="resource-actions"><a href="./resources/legacy-context-pack.zip" download>Download ZIP</a><button data-preview="legacy-context-pack">Ver conteúdo</button></div></article>
-    <article class="card"><h3>Speckit Workflow Pack</h3><p>9 skills para operar o fluxo SDD de especificação até implementação.</p><div class="resource-actions"><a href="./resources/speckit-workflow-pack.zip" download>Download ZIP</a><button data-preview="speckit-workflow-pack">Ver conteúdo</button></div></article>
-    <article class="card"><h3>Productivity Pack</h3><p>Skills para análise de demanda, geração de PRD e revisão de diff.</p><div class="resource-actions"><a href="./resources/productivity-pack.zip" download>Download ZIP</a><button data-preview="productivity-pack">Ver conteúdo</button></div></article>
+    <article class="card"><h3>Legacy Context Pack</h3><p>6 skills para proteger projetos legados e evitar decisões fora do padrão.</p><div class="resource-actions"><a href="./resources/legacy-context-pack.zip" download>Download ZIP</a><button data-preview="legacy">Ver conteúdo</button></div></article>
+    <article class="card"><h3>Speckit Workflow Pack</h3><p>9 skills para operar o fluxo SDD de especificação até implementação.</p><div class="resource-actions"><a href="./resources/speckit-workflow-pack.zip" download>Download ZIP</a><button data-preview="speckit">Ver conteúdo</button></div></article>
+    <article class="card"><h3>Productivity Pack</h3><p>Skills para análise de demanda, geração de PRD e revisão de diff.</p><div class="resource-actions"><a href="./resources/productivity-pack.zip" download>Download ZIP</a><button data-preview="productivity">Ver conteúdo</button></div></article>
   </div>
 </section>
 
-
 <section class="section" id="avancado">
   <span class="tag">Claude Code avançado</span>
-  <h2>Recursos que transformam o Claude Code em ambiente operacional.</h2>
-  <p>Depois que o time entende SDD e Speckit, o próximo salto é dominar segurança, contexto, automação e reutilização. Esses recursos ajudam o Claude Code a trabalhar com mais autonomia sem virar uma caixa-preta.</p>
+  <h2>Recursos que transformam Claude Code em ambiente operacional.</h2>
+  <p>Depois que o time entende SDD e Speckit, o próximo salto é dominar segurança, contexto, automação e reutilização.</p>
 
   <div class="pipeline">
     <button class="advanced-tab active" data-advanced="sandbox">/sandbox</button>
-    <button class="advanced-tab" data-advanced="memory">Memory</button>
-    <button class="advanced-tab" data-advanced="hooks">Hooks</button>
     <button class="advanced-tab" data-advanced="permissions">Permissions</button>
-    <button class="advanced-tab" data-advanced="compact">/compact</button>
-    <button class="advanced-tab" data-advanced="agents">Agents</button>
+    <button class="advanced-tab" data-advanced="memory">CLAUDE.md & Memory</button>
+    <button class="advanced-tab" data-advanced="hooks">Hooks</button>
+    <button class="advanced-tab" data-advanced="skills">Skills</button>
+    <button class="advanced-tab" data-advanced="agents">Subagents</button>
     <button class="advanced-tab" data-advanced="mcp">MCP</button>
-    <button class="advanced-tab" data-advanced="cache">Cache</button>
-    <button class="advanced-tab" data-advanced="automation">CLI automation</button>
+    <button class="advanced-tab" data-advanced="compact">/compact</button>
+    <button class="advanced-tab" data-advanced="cli">CLI automation</button>
+    <button class="advanced-tab" data-advanced="context">Context Engineering</button>
+    <button class="advanced-tab" data-advanced="costs">Custos & cache</button>
   </div>
 
   <div class="panel advanced-panel">
     <h3 id="advancedTitle"></h3>
     <p id="advancedText"></p>
+    <div id="advancedMatrix" class="matrix"></div>
     <pre id="advancedExample"></pre>
-  </div>
-
-  <div class="grid">
-    <article class="card">
-      <h3>Quando ensinar isso ao time?</h3>
-      <p>Depois que o time já estiver usando PRD, Speckit e revisão de diff. Esses recursos são mais úteis quando existe um processo mínimo.</p>
-    </article>
-
-    <article class="card">
-      <h3>O que muda na prática?</h3>
-      <p>O Claude deixa de ser só “um chat que escreve código” e passa a operar com memória, regras, automações, isolamento e ferramentas externas.</p>
-    </article>
-
-    <article class="card">
-      <h3>Risco principal</h3>
-      <p>Automatizar sem critério. Quanto mais autonomia, mais importante é ter sandbox, hooks, permissions e revisão de diff.</p>
-    </article>
+    <div id="advancedDocs" class="doc-line"></div>
   </div>
 </section>
 
+<section class="section dark" id="referencias">
+  <span class="tag">Referências técnicas</span>
+  <h2>Documentação oficial para aprofundamento.</h2>
+  <p>Use esta seção como índice de consulta para o time. A apresentação resume os conceitos, mas a fonte de verdade deve ser a documentação oficial.</p>
+
+  <div class="ref-grid">
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener noreferrer"><small>Claude Code</small><h3>Overview</h3><p>Visão geral do Claude Code.</p></a>
+    <a class="ref-card" href="https://code.claude.com/docs/en/sandboxing" target="_blank" rel="noopener noreferrer"><small>Segurança</small><h3>Sandboxing</h3><p>Configuração de sandbox para Bash.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/settings" target="_blank" rel="noopener noreferrer"><small>Configuração</small><h3>Settings & Permissions</h3><p>Settings, permissões e regras de allow/deny.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer"><small>Contexto</small><h3>Memory & CLAUDE.md</h3><p>Como Claude lembra do projeto.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/hooks" target="_blank" rel="noopener noreferrer"><small>Automação</small><h3>Hooks Reference</h3><p>Eventos e tipos de hooks.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/hooks-guide" target="_blank" rel="noopener noreferrer"><small>Automação</small><h3>Hooks Guide</h3><p>Guia prático para hooks.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/skills" target="_blank" rel="noopener noreferrer"><small>Reuso</small><h3>Skills</h3><p>Criar, gerenciar e compartilhar skills.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/sub-agents" target="_blank" rel="noopener noreferrer"><small>Orquestração</small><h3>Subagents</h3><p>Agentes especializados.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/mcp" target="_blank" rel="noopener noreferrer"><small>Integrações</small><h3>MCP</h3><p>Conectar ferramentas externas.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/cli-reference" target="_blank" rel="noopener noreferrer"><small>CLI</small><h3>CLI Reference</h3><p>Flags e comandos úteis.</p></a>
+    <a class="ref-card" href="https://docs.anthropic.com/en/docs/claude-code/troubleshooting" target="_blank" rel="noopener noreferrer"><small>Operação</small><h3>Troubleshooting</h3><p>Diagnóstico e /doctor.</p></a>
+    <a class="ref-card" href="https://github.github.com/spec-kit/quickstart.html" target="_blank" rel="noopener noreferrer"><small>Spec Kit</small><h3>Quickstart</h3><p>Fluxo oficial do Spec Kit.</p></a>
+  </div>
+</section>
 
 <section class="section" id="playbook">
   <span class="tag">Uso no dia a dia</span>
@@ -290,13 +285,13 @@ Regras:
 </div>
 
 <script>
-const terminalLines = ["$ claude","","Context loaded: projeto","Skills enabled:","  ✓ jira-card-analysis","  ✓ jira-to-prd","  ✓ legacy-project-context","  ✓ speckit-specify","  ✓ speckit-plan","  ✓ speckit-tasks","  ✓ speckit-implement","  ✓ pr-review-diff","","Goal:","  Transformar demanda em código validado","  sem inventar regra de negócio.","","Pipeline:","  Contexto → PRD → Spec → Plan → Tasks → Implement → Review"];
-let i=0;
-const terminal=document.getElementById("terminalText");
+const terminalLines = ["$ claude","","Context loaded: projeto","Skills enabled:","  ✓ jira-card-analysis","  ✓ jira-to-prd","  ✓ legacy-project-context","  ✓ speckit.specify","  ✓ speckit.plan","  ✓ speckit.tasks","  ✓ speckit.implement","  ✓ pr-review-diff","","Goal:","  Transformar demanda em código validado","  sem inventar regra de negócio.","","Pipeline:","  Contexto → PRD → Spec → Plan → Tasks → Implement → Review"];
+let terminalIndex = 0;
+const terminal = document.getElementById("terminalText");
 function typeTerminal(){
-  if(i>=terminalLines.length)return;
-  terminal.textContent+=terminalLines[i++]+"\n";
-  setTimeout(typeTerminal,80);
+  if(terminalIndex >= terminalLines.length) return;
+  terminal.textContent += terminalLines[terminalIndex++] + "\n";
+  setTimeout(typeTerminal, 80);
 }
 typeTerminal();
 
@@ -310,105 +305,243 @@ const flow = {
   implement:["7. Implement","Só depois de spec, plano e tasks o Claude Code altera arquivos e executa a implementação."],
   review:["8. Review","O diff é revisado com foco em regressão, regra de negócio, null safety, SQL, compatibilidade e padrões do projeto."]
 };
-const flowTitle=document.getElementById("flowTitle");
-const flowText=document.getElementById("flowText");
-document.querySelectorAll(".step").forEach(button=>button.addEventListener("click",()=>{
-  document.querySelectorAll(".step").forEach(item=>item.classList.remove("active"));
+const flowTitle = document.getElementById("flowTitle");
+const flowText = document.getElementById("flowText");
+document.querySelectorAll(".step").forEach(button => button.addEventListener("click", () => {
+  document.querySelectorAll(".step").forEach(item => item.classList.remove("active"));
   button.classList.add("active");
-  flowTitle.textContent=flow[button.dataset.flow][0];
-  flowText.textContent=flow[button.dataset.flow][1];
+  flowTitle.textContent = flow[button.dataset.flow][0];
+  flowText.textContent = flow[button.dataset.flow][1];
 }));
-flowTitle.textContent=flow.contexto[0];
-flowText.textContent=flow.contexto[1];
+flowTitle.textContent = flow.contexto[0];
+flowText.textContent = flow.contexto[1];
 
 const previews = {
-  "legacy-context-pack": "===== legacy-project-context/skill.md =====\n# legacy-project-context\n\n## Objetivo\nImpedir que o Claude Code invente arquitetura, regra ou padrão em projetos legados.\n\n## Princípio central\nO projeto já tem exemplo de quase tudo. Antes de propor qualquer solução, o agente deve buscar referências reais no código existente e seguir o padrão observado.\n\n## Quando usar\nUse esta skill antes de implementar qualquer demanda em monorepos, sistemas legados ou projetos com padrões internos consolidados.\n\n## Regras obrigatórias\n- Não inventar padrão quando existe código parecido.\n- Não modernizar o legado sem necessidade.\n- Não refatorar código adjacente sem autorização.\n- Não criar camada, abstração ou biblioteca nova sem justificativa.\n- Não assumir regra de negócio sem evidência.\n- Se não encontrar referência confiável, parar e pedir orientação.\n\n## Fluxo recomendado\n1. Entender a demanda.\n2. Buscar exemplos parecidos no código.\n3. Citar arquivos de referência.\n4. Explicar o padrão encontrado.\n5. Só depois propor implementação.\n\n## Padrões esperados\n- Controller recebe HTTP e delega.\n- Service concentra regra de negócio.\n- Repository concentra acesso a dados.\n- Model representa persistência.\n- Testes e validações devem respeitar o padrão do projeto.\n\n## Checklist\n- [ ] Li o contexto da demanda\n- [ ] Busquei referência no código\n- [ ] Evitei modernização desnecessária\n- [ ] Expliquei riscos\n- [ ] Listei arquivos impactados\n\n\n===== superlogica-controller-rules/skill.md =====\n# superlogica-controller-rules\n\n## Objetivo\nGarantir que controllers sejam finos: recebem parâmetros, delegam para Service/Helper e retornam resposta padronizada.\n\n## Quando usar\nAo criar ou editar qualquer arquivo em `Controllers/`.\n\n## Regras\n- Controller não deve conter regra de negócio.\n- Controller não deve acessar banco diretamente.\n- Controller não deve instanciar Repository diretamente.\n- Controller deve delegar para Service ou Helper.\n- Controller deve retornar resposta padronizada.\n- Não usar `$_GET`, `$_POST` ou `$_REQUEST` diretamente.\n\n## Exemplo de estrutura\n\n```php\npublic function indexAction() {\n    $params = array_shift($this->_request->getParam('todos'));\n\n    $service = Services_Contratos_Contrato::initServiceContrato();\n    $dados = $service->getDados($params);\n\n    return Superlogica_Response::success($dados);\n}\n```\n\n## Anti-patterns\n- `echo`, `print_r`, `var_dump`, `die`\n- SQL dentro do controller\n- validações complexas dentro da action\n- retorno de array cru\n- controller grande demais\n\n## Checklist\n- [ ] Recebe parâmetros pelo padrão do framework\n- [ ] Delega para Service/Helper\n- [ ] Retorna resposta padronizada\n- [ ] Não contém regra de negócio\n- [ ] Não acessa banco diretamente\n\n\n===== superlogica-service-repository/skill.md =====\n# superlogica-service-repository\n\n## Objetivo\nSeparar regra de negócio de acesso a dados.\n\nService = regra de negócio.\nRepository = acesso a dados.\n\n## Quando usar\nAo criar ou editar arquivos em `Services/` ou `Repositories/`.\n\n## Service\nResponsabilidades:\n- validar regra de negócio\n- validar permissões quando aplicável\n- coordenar fluxo\n- chamar repositories\n- preparar resposta para controller\n\n## Repository\nResponsabilidades:\n- montar query\n- chamar API externa quando aplicável\n- persistir dados\n- retornar dados crus ou estruturados\n- não decidir regra de negócio\n\n## Estrutura sugerida\n\n```text\nServices/<Grupo>/<Entidade>.php\n\nRepositories/<Grupo>/\n├── <Entidade>.php\n└── Zend/\n    └── <Entidade>.php\n```\n\n## Exemplo de Service\n\n```php\nclass Services_Contratos_Contrato {\n\n    private $repositoryContrato;\n\n    public function __construct(\n        Repositories_Contratos_Contrato $repositoryContrato\n    ) {\n        $this->repositoryContrato = $repositoryContrato;\n    }\n\n    public static function initServiceContrato() {\n        return new Services_Contratos_Contrato(\n            new Repositories_Contratos_Zend_Contrato()\n        );\n    }\n}\n```\n\n## Anti-patterns\n- Service montando SQL\n- Repository validando regra de negócio\n- Repository sem interface\n- Service sem factory method\n- Acesso à session dentro do Repository\n- SQL string concatenada\n\n\n===== superlogica-db-conventions/skill.md =====\n# superlogica-db-conventions\n\n## Objetivo\nGarantir que queries, tabelas e colunas sigam convenções do projeto.\n\n## Prefixos comuns\n\n| Prefixo | Uso |\n|---|---|\n| ST_ | String / texto curto |\n| ID_ | Identificador / FK |\n| DT_ | Data / datetime |\n| FL_ | Flag / boolean |\n| NM_ | Número / quantidade |\n| VL_ | Valor monetário |\n| TX_ | Texto longo |\n| BL_ | Binário |\n\n## Regras\n- Não inventar nome de campo.\n- Conferir campos existentes antes de usar.\n- Usar query builder quando for o padrão do projeto.\n- Usar bind em filtros.\n- Evitar `SELECT *` em código de produção.\n- Não concatenar variável em SQL.\n- Respeitar multi-tenant pelo mecanismo do framework.\n\n## Exemplo\n\n```php\n$select = $model->select()\n    ->from('CONTRATOS', array('ID_CONTRATO_CTR', 'ST_NUMERO_CTR'))\n    ->where('FL_ATIVO_CTR = ?', 1);\n```\n\n## Anti-pattern\n\n```php\n$sql = \"SELECT * FROM CONTRATOS WHERE ID_STATUS_CTR = \" . $status;\n```\n\n## Checklist\n- [ ] Verifiquei os campos reais\n- [ ] Usei bind\n- [ ] Evitei SQL concatenado\n- [ ] Respeitei multi-tenant\n- [ ] Listei campos explicitamente\n\n\n===== superlogica-frontend-flow/skill.md =====\n# superlogica-frontend-flow\n\n## Objetivo\nGarantir que Forms, Grids, modais e JavaScript sigam o padrão do projeto.\n\n## Regras\n- Não colocar regra de negócio pesada no JavaScript.\n- Não reinventar modal se o framework já fornece padrão.\n- Não fazer submit manual se o Form do projeto já resolve.\n- Não criar JS solto quando existe classe/padrão.\n- Evitar inline JavaScript em views.\n\n## Forms\nForms devem declarar comportamento, action e método seguindo o framework.\n\n```php\n$this->addAttribs(array(\n    'action' => $location->toString(),\n    'method' => 'put',\n    'aposCarregar' => 'Form.callback'\n));\n```\n\n## Grids\nGrids devem estender a classe base do projeto.\n\n```javascript\nvar Grids_Contratos = new Class({\n    Extends: Superlogica_Js_Grid,\n\n    _formatarColunaCliente: function(dados) {\n        return '<b>' + dados.nome + '</b>';\n    }\n});\n```\n\n## Modais\nUsar o padrão:\n- form em div oculta\n- botão abre via helper do framework\n- callback após salvar quando necessário\n\n## Checklist\n- [ ] Respeitei Form/Grid do projeto\n- [ ] Não criei modal manual\n- [ ] Não coloquei regra de negócio no JS\n- [ ] Mantive callbacks padronizados\n\n\n===== superlogica-encoding-safe/skill.md =====\n# superlogica-encoding-safe\n\n## Objetivo\nEvitar corrupção de caracteres em arquivos legados.\n\n## Regra principal\nNunca converter encoding de arquivo sem autorização.\n\n## Quando usar\nAntes de editar arquivos PHP legados, especialmente quando houver acentos, cedilha ou strings de mensagem.\n\n## Fluxo\n1. Verificar encoding do arquivo.\n2. Manter o encoding original.\n3. Editar apenas o necessário.\n4. Conferir se caracteres especiais não foram corrompidos.\n\n## Comando útil\n\n```bash\nfile arquivo.php\n```\n\n## Regras\n- Se o arquivo está em ISO-8859-1, manter ISO-8859-1.\n- Se está em UTF-8, manter UTF-8.\n- Não reescrever arquivo inteiro sem necessidade.\n- Não usar conversão automática sem certeza da origem.\n\n## Anti-patterns\n- Salvar arquivo ISO como UTF-8 sem autorização.\n- Rodar conversão em massa.\n- Misturar strings de encodings diferentes.\n- Alterar encoding junto com mudança de regra de negócio.\n\n## Checklist\n- [ ] Verifiquei o encoding\n- [ ] Mantive o encoding original\n- [ ] Não corrompi acentos\n- [ ] Não fiz conversão desnecessária\n",
-  "speckit-workflow-pack": "===== speckit-specify/skill.md =====\n# speckit-specify\n\n## Objetivo\nTransforma descrição em linguagem natural em `spec.md`, focada no WHAT, não no HOW.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nGerar especificação com escopo, comportamento esperado, regras, fluxos e critérios de aceite.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-clarify/skill.md =====\n# speckit-clarify\n\n## Objetivo\nIdentifica lacunas na especificação.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nFazer perguntas cirúrgicas para fechar ambiguidades antes do plano técnico.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-plan/skill.md =====\n# speckit-plan\n\n## Objetivo\nGera plano de implementação e artefatos técnicos.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nDefinir estratégia, arquitetura, contratos, entidades, riscos e decisões.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-tasks/skill.md =====\n# speckit-tasks\n\n## Objetivo\nQuebra o plano em tasks atômicas.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nGerar `tasks.md` com tarefas ordenadas, pequenas e executáveis.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-implement/skill.md =====\n# speckit-implement\n\n## Objetivo\nExecuta as tasks planejadas.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nImplementar apenas o que está em `tasks.md` e marcar progresso.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-analyze/skill.md =====\n# speckit-analyze\n\n## Objetivo\nAudita consistência entre spec, plan e tasks.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nEncontrar contradições, lacunas e tarefas sem requisito correspondente.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-checklist/skill.md =====\n# speckit-checklist\n\n## Objetivo\nGera checklist de validação.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nCriar checklist de qualidade, testes, segurança, UX e regressão.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-constitution/skill.md =====\n# speckit-constitution\n\n## Objetivo\nDefine princípios permanentes do projeto.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nRegistrar regras, restrições e padrões que o agente deve respeitar sempre.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n\n\n===== speckit-taskstoissues/skill.md =====\n# speckit-taskstoissues\n\n## Objetivo\nConverte tasks em issues.\n\n## Quando usar\nUse dentro do fluxo SDD/Speckit, respeitando a ordem das etapas.\n\n## Comportamento\nTransformar `tasks.md` em issues rastreáveis e ordenadas por dependência.\n\n## Regras\n- Não inventar regra de negócio.\n- Não pular etapa do fluxo.\n- Não implementar antes de existir spec, plan e tasks.\n- Registrar dúvidas explicitamente.\n- Preservar rastreabilidade entre PRD, spec, plan, tasks e implementação.\n\n## Artefatos esperados\n\n```text\nspecs/<feature>/\n  spec.md\n  plan.md\n  data-model.md\n  tasks.md\n  research.md\n  contracts/\n  checklists/\n```\n\n## Critério de qualidade\nA saída deve ser revisável por humanos e permitir que outro desenvolvedor entenda motivação, escopo, decisões e próximo passo.\n",
-  "productivity-pack": "===== jira-card-analysis/skill.md =====\n# jira-card-analysis\n\n## Objetivo\nOrganizar o contexto de um card Jira informado pelo usuário.\n\n## Entradas aceitas\n- ID completo: `IMC-1222`\n- número isolado: `1222`\n- texto com número: `card 1222`, `issue 1222`, `ticket 1222`\n- prefixo diferente quando informado explicitamente\n\n## Regras\n- Nunca inventar ID.\n- Nunca implementar apenas com base no card.\n- Nunca inventar descrição, critério de aceite, branch ou regra de negócio.\n- Nunca exibir tokens, senhas ou credenciais.\n- Se não houver acesso ao Jira, pedir que o usuário cole o conteúdo do card.\n\n## Fluxo\n1. Normalizar ID do card.\n2. Buscar título, status, descrição, comentários, anexos e links.\n3. Converter ADF para texto quando necessário.\n4. Identificar critérios de aceite.\n5. Separar dúvidas e ambiguidades.\n6. Retornar resumo estruturado.\n\n## Saída\n\n## Card\nID:\nTítulo:\nStatus:\nTipo / Prioridade / Componente:\nAssignee / Reporter:\nCriado / Atualizado / Due:\n\n## Resumo\n\n## Requisitos\n\n## Critérios de aceite\n\n## Comentários relevantes\n\n## Impacto técnico provável\n\n## Pontos de atenção\n\n## Próximo passo recomendado\n\n\n===== jira-card-analysis/parse_adf.py =====\n#!/usr/bin/env python3\n\"\"\"\nParser do Jira issue JSON + ADF (Atlassian Document Format) → texto.\n\nUso:\n    python3 parse_adf.py /tmp/jira-IMC-1222.json\n\nRecebe o JSON retornado por GET /rest/api/3/issue/<KEY> e imprime os campos\nrelevantes já com descrição e comentários convertidos de ADF para texto plano.\n\"\"\"\nimport json\nimport sys\n\n\ndef adf_to_text(node, depth=0):\n    \"\"\"Conversor mínimo de ADF para texto. Cobre os tipos mais comuns.\"\"\"\n    if node is None:\n        return \"\"\n    if isinstance(node, list):\n        return \"\\n\".join(adf_to_text(n, depth) for n in node)\n    if not isinstance(node, dict):\n        return str(node)\n\n    t = node.get(\"type\", \"\")\n    content = node.get(\"content\", [])\n\n    if t == \"text\":\n        return node.get(\"text\", \"\")\n    if t in (\"paragraph\", \"heading\"):\n        return adf_to_text(content, depth) + \"\\n\"\n    if t == \"bulletList\":\n        items = [\n            \"- \" + adf_to_text(c.get(\"content\", []), depth).strip()\n            for c in content\n        ]\n        return \"\\n\".join(items) + \"\\n\"\n    if t == \"orderedList\":\n        items = [\n            f\"{i}. \" + adf_to_text(c.get(\"content\", []), depth).strip()\n            for i, c in enumerate(content, 1)\n        ]\n        return \"\\n\".join(items) + \"\\n\"\n    if t == \"listItem\":\n        return adf_to_text(content, depth)\n    if t == \"codeBlock\":\n        return \"```\\n\" + adf_to_text(content, depth) + \"```\\n\"\n    if t == \"hardBreak\":\n        return \"\\n\"\n    if t == \"mention\":\n        attrs = node.get(\"attrs\", {})\n        return \"@\" + attrs.get(\"text\", attrs.get(\"displayName\", \"\"))\n    if t in (\"inlineCard\", \"blockCard\"):\n        attrs = node.get(\"attrs\", {})\n        return attrs.get(\"url\", \"\")\n    if t == \"rule\":\n        return \"\\n---\\n\"\n    # fallback: descer recursivamente\n    return adf_to_text(content, depth)\n\n\ndef main(path):\n    with open(path) as f:\n        data = json.load(f)\n\n    fields = data.get(\"fields\", {}) or {}\n\n    def g(d, *keys):\n        cur = d\n        for k in keys:\n            if cur is None:\n                return None\n            cur = cur.get(k) if isinstance(cur, dict) else None\n        return cur\n\n    print(\"=\" * 70)\n    print(f\"KEY:      {data.get('key')}\")\n    print(f\"SUMMARY:  {fields.get('summary')}\")\n    print(f\"STATUS:   {g(fields, 'status', 'name')}\")\n    print(f\"TYPE:     {g(fields, 'issuetype', 'name')}\")\n    print(f\"PRIORITY: {g(fields, 'priority', 'name')}\")\n    print(f\"ASSIGNEE: {g(fields, 'assignee', 'displayName')}\")\n    print(f\"REPORTER: {g(fields, 'reporter', 'displayName')}\")\n    print(f\"CREATED:  {fields.get('created')}\")\n    print(f\"UPDATED:  {fields.get('updated')}\")\n    print(f\"DUE:      {fields.get('duedate')}\")\n    print(f\"LABELS:   {fields.get('labels')}\")\n    print(f\"COMPONENTS:   {[c.get('name') for c in (fields.get('components') or [])]}\")\n    print(f\"FIX VERSIONS: {[v.get('name') for v in (fields.get('fixVersions') or [])]}\")\n\n    parent = fields.get(\"parent\")\n    if parent:\n        print(f\"PARENT:   {parent.get('key')} - {g(parent, 'fields', 'summary')}\")\n\n    subs = fields.get(\"subtasks\") or []\n    if subs:\n        print(\"SUBTASKS:\")\n        for s in subs:\n            print(\n                f\"  - {s.get('key')}: {g(s, 'fields', 'summary')} \"\n                f\"[{g(s, 'fields', 'status', 'name')}]\"\n            )\n\n    links = fields.get(\"issuelinks\") or []\n    if links:\n        print(\"LINKS:\")\n        for l in links:\n            rel = g(l, \"type\", \"outward\") or g(l, \"type\", \"inward\")\n            target = l.get(\"outwardIssue\") or l.get(\"inwardIssue\") or {}\n            print(f\"  - {rel}: {target.get('key')} - {g(target, 'fields', 'summary')}\")\n\n    print()\n    print(\"=\" * 70)\n    print(\"DESCRIPTION:\")\n    print(\"=\" * 70)\n    print(adf_to_text(fields.get(\"description\")) if fields.get(\"description\") else \"(vazio)\")\n\n    print()\n    print(\"=\" * 70)\n    print(\"ATTACHMENTS:\")\n    print(\"=\" * 70)\n    atts = fields.get(\"attachment\") or []\n    if atts:\n        for a in atts:\n            print(f\"  - {a.get('filename')} ({a.get('mimeType')}, {a.get('size')} bytes)\")\n    else:\n        print(\"(nenhum)\")\n\n    print()\n    print(\"=\" * 70)\n    print(\"COMMENTS:\")\n    print(\"=\" * 70)\n    cobj = fields.get(\"comment\") or {}\n    comments = cobj.get(\"comments\") or []\n    total = cobj.get(\"total\")\n    if total is not None and len(comments) < total:\n        print(f\"⚠ {len(comments)}/{total} comentários retornados — buscar restantes via /comment?startAt={len(comments)}\")\n        print()\n    if comments:\n        for c in comments:\n            author = g(c, \"author\", \"displayName\")\n            created = (c.get(\"created\") or \"\")[:10]\n            print(f\"\\n--- {author} @ {created} ---\")\n            print(adf_to_text(c.get(\"body\")))\n    else:\n        print(\"(nenhum)\")\n\n\nif __name__ == \"__main__\":\n    if len(sys.argv) < 2:\n        print(\"Usage: parse_adf.py <jira-issue.json>\", file=sys.stderr)\n        sys.exit(2)\n    main(sys.argv[1])\n\n\n===== jira-to-prd/skill.md =====\n# jira-to-prd\n\n## Objetivo\nTransformar demanda bruta em PRD funcional, claro, estruturado e revisável.\n\n## Entradas aceitas\n- ID de card Jira\n- descrição manual\n- XML\n- screenshots\n- links Figma\n- comentários do usuário\n- regras de negócio complementares\n- contexto técnico\n\n## Regras\n- Não implementar código.\n- Não gerar plano técnico completo.\n- Não gerar tasks.\n- Não inventar regra de negócio.\n- Não assumir comportamento sem evidência.\n- Quando faltar informação, marcar como `Informação não confirmada`.\n\n## Saída esperada\nCriar arquivo markdown em:\n\n```text\n~/SDD/PRD-<CARD>.md\n```\n\n## Template\n\n# PRD — <ID> — <Título>\n\n## 1. Contexto\n## 2. Objetivo\n## 3. Problema atual\n## 4. Comportamento esperado\n## 5. Regras de negócio\n## 6. Fluxo do usuário\n## 7. Dados e integrações\n## 8. XML / payloads relacionados\n## 9. Referências de Figma\n## 10. Critérios de aceite\n## 11. Cenários de validação\n## 12. Cenários de erro\n## 13. Premissas\n## 14. Dúvidas em aberto\n## 15. Fora de escopo\n## 16. Próximo passo recomendado\n\n## Encerramento\nRevise este PRD manualmente antes de seguir para o fluxo do Speckit.\n\n\n===== pr-review-diff/skill.md =====\n# pr-review-diff\n\n## Objetivo\nRevisar PR com base em diff real.\n\n## Fluxo\n1. Atualizar referências remotas.\n2. Comparar branch atual com branch base.\n3. Listar arquivos alterados.\n4. Entender intenção da mudança.\n5. Procurar bugs, regressões e impactos colaterais.\n6. Sugerir testes manuais.\n\n## Checklist\n- regra de negócio quebrada\n- condição invertida\n- null safety\n- array vazio\n- query perigosa\n- SQL injection\n- falta de bind\n- multi-tenant\n- compatibilidade com versão do PHP\n- JS legado quebrando tela/modal/grid\n- mudança que afeta fluxo antigo\n- duplicação aceitável vs abstração desnecessária\n- nomes confusos\n\n## Formato de saída\n\nResumo geral:\nRisco do PR: baixo / médio / alto\n\nProblemas encontrados:\n1. [Alto] Arquivo X\n   Problema:\n   Impacto:\n   Sugestão:\n\nPontos positivos:\n- ...\n\nTestes recomendados:\n- Cenário 1\n- Cenário 2\n"
+  legacy: `Arquivos no Legacy Context Pack:
+
+legacy-context-pack/
+  legacy-project-context/
+    skill.md
+  superlogica-controller-rules/
+    skill.md
+  superlogica-service-repository/
+    skill.md
+  superlogica-db-conventions/
+    skill.md
+  superlogica-frontend-flow/
+    skill.md
+  superlogica-encoding-safe/
+    skill.md
+
+Objetivo:
+Conter regras e contexto para reduzir invenções em projeto legado.`,
+
+  speckit: `Arquivos no Speckit Workflow Pack:
+
+speckit-workflow-pack/
+  speckit-specify/
+    skill.md
+  speckit-clarify/
+    skill.md
+  speckit-plan/
+    skill.md
+  speckit-tasks/
+    skill.md
+  speckit-implement/
+    skill.md
+  speckit-analyze/
+    skill.md
+  speckit-checklist/
+    skill.md
+  speckit-constitution/
+    skill.md
+  speckit-taskstoissues/
+    skill.md
+
+Objetivo:
+Operar o fluxo SDD completo usando Speckit.`,
+
+  productivity: `Arquivos no Productivity Pack:
+
+productivity-pack/
+  jira-card-analysis/
+    skill.md
+    parse_adf.py
+  jira-to-prd/
+    skill.md
+  pr-review-diff/
+    skill.md
+
+Objetivo:
+Apoiar análise de card, geração de PRD e revisão de diff.`
 };
-const modal=document.getElementById("modal");
-const modalTitle=document.getElementById("modalTitle");
-const modalText=document.getElementById("modalText");
-document.querySelectorAll("[data-preview]").forEach(button=>button.addEventListener("click",()=>{
-  modalTitle.textContent=button.dataset.preview;
-  modalText.textContent=previews[button.dataset.preview];
+
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalText = document.getElementById("modalText");
+document.querySelectorAll("[data-preview]").forEach(button => button.addEventListener("click", () => {
+  modalTitle.textContent = button.closest(".card").querySelector("h3").textContent;
+  modalText.textContent = previews[button.dataset.preview];
   modal.classList.add("open");
 }));
-document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
-modal.addEventListener("click",event=>{ if(event.target===modal) modal.classList.remove("open"); });
-
+document.getElementById("closeModal").onclick = () => modal.classList.remove("open");
+modal.addEventListener("click", event => { if(event.target === modal) modal.classList.remove("open"); });
 
 const advanced = {
-  sandbox: [
-    "/sandbox",
-    "Serve para executar comandos em um ambiente mais controlado, reduzindo risco de alterações indevidas no filesystem ou acesso desnecessário à rede. É útil quando o Claude precisa testar comandos, explorar scripts ou rodar validações sem ganhar liberdade total no projeto.",
-    "Exemplo de uso:\n/sandbox\n\nQuando usar:\n- antes de rodar comandos desconhecidos\n- ao testar scripts gerados pela IA\n- em spikes de investigação\n- quando o time quer mais segurança sem travar completamente o fluxo"
-  ],
-  memory: [
-    "Memory e CLAUDE.md",
-    "Memória é o contexto persistente que orienta o Claude entre sessões. O CLAUDE.md deve conter padrões do projeto, comandos úteis, arquitetura, regras de segurança e checklists. Isso evita repetir instruções toda vez.",
-    "Exemplo de CLAUDE.md:\n# Projeto\n- PHP 7.2\n- Zend Framework 1\n- Não modernizar código legado sem autorização\n- Sempre buscar exemplo parecido antes de implementar\n\n# Comandos úteis\n- composer test\n- npm run lint\n\n# Regras\n- Não executar migrations destrutivas\n- Revisar diff antes de finalizar"
-  ],
-  hooks: [
-    "Hooks",
-    "Hooks são automações executadas antes ou depois de ações do Claude. Eles ajudam a padronizar segurança, validação e feedback. Podem rodar formatadores, linters, bloquear comandos perigosos ou emitir notificações sonoras.",
-    "Exemplos práticos:\n- tocar som quando Claude pedir permissão\n- rodar lint após editar arquivo\n- bloquear rm -rf, deploy ou migration destrutiva\n- registrar comandos executados\n\nIdeia simples:\necho -e \"\\a\"\n\nUso comum:\nnotificar quando o Claude Code estiver aguardando aprovação."
-  ],
-  permissions: [
-    "Permissions",
-    "Permissions definem até onde o Claude pode ir sem pedir confirmação. O time precisa entender a diferença entre autonomia produtiva e risco operacional. Nem tudo deve ser permitido automaticamente.",
-    "Boas práticas:\n- permitir leitura de arquivos do projeto\n- pedir aprovação para comandos destrutivos\n- revisar comandos que alteram banco ou ambiente\n- nunca liberar deploy automático sem processo\n- usar sandbox para comandos de investigação"
-  ],
-  compact: [
-    "/compact",
-    "Compacta o contexto da conversa para reduzir ruído e manter a sessão utilizável. É essencial em tarefas longas, principalmente quando o Claude já entendeu o problema e precisa continuar sem carregar todo o histórico bruto.",
-    "Quando usar:\n/compact\n\nUse quando:\n- a conversa ficou muito longa\n- o Claude começa a perder foco\n- você terminou a fase de análise e vai para implementação\n- quer preservar decisões principais e descartar ruído"
-  ],
-  agents: [
-    "Agents / Subagents",
-    "Agents permitem dividir responsabilidades. Em vez de pedir tudo ao mesmo agente, você pode ter um revisor, um planejador, um investigador de legado ou um testador crítico.",
-    "Exemplos de agentes:\n- Legacy Investigator: encontra exemplos no código\n- PR Reviewer: revisa diff e riscos\n- QA Challenger: pensa em cenários quebrados\n- Planner: transforma PRD em plano\n\nUso recomendado:\nDelegar análise complexa sem misturar tudo na mesma linha de raciocínio."
-  ],
-  mcp: [
-    "MCP",
-    "MCP conecta o Claude Code a ferramentas externas e fontes de contexto. Pode ser usado para integrar Jira, documentação, banco de conhecimento, GitHub, Slack e outros sistemas.",
-    "Exemplos de uso:\n- buscar contexto no Jira\n- consultar documentação interna\n- acessar issues ou PRs\n- conectar base de conhecimento do time\n\nRegra:\nconectar apenas ferramentas necessárias e com escopo de permissão bem definido."
-  ],
-  cache: [
-    "Prompt cache / contexto reaproveitável",
-    "Cache reduz repetição, custo e latência quando o mesmo contexto aparece várias vezes. Na prática, quanto mais o time padroniza CLAUDE.md, specs e skills, mais reaproveitável fica o contexto.",
-    "Boas práticas:\n- manter instruções estáveis em CLAUDE.md\n- evitar colar contexto gigante toda hora\n- transformar decisões em arquivos\n- usar PRD/spec/plan como fonte oficial\n- preferir artefatos versionados a conversa solta"
-  ],
-  automation: [
-    "CLI automation",
-    "Claude Code pode ser usado em automações via terminal, não só no modo interativo. Isso permite revisar diffs, resumir logs, analisar arquivos e criar fluxos repetíveis.",
-    "Exemplos conceituais:\nclaude -p \"Revise o diff atual e liste riscos\"\nclaude -p \"Leia este log e resuma possíveis causas\"\nclaude -p \"Gere checklist de teste para esta alteração\"\n\nUso recomendado:\ncomeçar com automações de leitura/análise antes de automatizar escrita de código."
-  ]
+  sandbox: {
+    title: "/sandbox",
+    text: "O /sandbox abre o painel de sandbox da ferramenta Bash. Em vez de aprovar comando por comando, você define limites de filesystem e rede para comandos shell e seus subprocessos. Isso reduz prompts e aumenta segurança.",
+    matrix: [
+      ["Análise segura", "Use limites mais restritivos quando o objetivo é apenas ler, auditar ou entender o projeto."],
+      ["Desenvolvimento diário", "Permita escrita no workspace e mantenha rede/domínios controlados."],
+      ["Acesso amplo", "Use apenas em ambiente isolado, tarefa confiável e com revisão posterior."]
+    ],
+    example: "Como ensinar o time:\n1. Rode /sandbox.\n2. Verifique se o ambiente suporta sandbox.\n3. Escolha limites de filesystem e rede.\n4. Combine com permission rules.\n5. Use sandbox para reduzir prompt fatigue sem liberar acesso total.",
+    docs: [["Sandboxing docs", "https://code.claude.com/docs/en/sandboxing"], ["Security docs", "https://docs.anthropic.com/en/docs/claude-code/security"]]
+  },
+  permissions: {
+    title: "Permissions",
+    text: "Permissions definem quais ferramentas, comandos, arquivos e domínios Claude pode acessar sem perguntar. Elas trabalham junto com o sandbox.",
+    matrix: [
+      ["Allow", "Use para comandos seguros e repetitivos, como testes locais e leitura de arquivos do projeto."],
+      ["Deny", "Use para bloquear arquivos sensíveis, comandos destrutivos e domínios externos."],
+      ["Revisar sempre", "Banco, deploy, migrations, rm, push e comandos de infra devem pedir confirmação ou ser bloqueados."]
+    ],
+    example: "Exemplo conceitual:\n- Permitir: Bash(git status), Bash(composer test), Read(src/**)\n- Revisar: Bash(git push), Bash(php artisan migrate)\n- Bloquear: Bash(rm -rf *), Read(.env), Read(~/.ssh/**)",
+    docs: [["Settings docs", "https://docs.anthropic.com/en/docs/claude-code/settings"]]
+  },
+  memory: {
+    title: "CLAUDE.md e Auto Memory",
+    text: "CLAUDE.md guarda regras explícitas do projeto. Auto memory guarda aprendizados recorrentes. Memória orienta comportamento, mas não bloqueia ação.",
+    matrix: [
+      ["CLAUDE.md", "Regras explícitas: arquitetura, comandos, padrões, restrições e checklists."],
+      ["Auto memory", "Aprendizados recorrentes que Claude registra a partir do uso e das correções."],
+      ["Limite", "Para bloquear ação, use hooks ou permission rules."]
+    ],
+    example: "# CLAUDE.md exemplo\n\n## Stack\n- PHP 7.2\n- Zend Framework 1\n\n## Regras\n- Não modernizar legado sem autorização\n- Buscar exemplo parecido antes de implementar\n- Revisar diff antes de finalizar",
+    docs: [["Memory docs", "https://docs.anthropic.com/en/docs/claude-code/memory"]]
+  },
+  hooks: {
+    title: "Hooks",
+    text: "Hooks são automações que rodam em eventos do Claude Code. Podem bloquear ações, validar comandos, tocar notificação, rodar lint ou chamar ferramentas externas.",
+    matrix: [
+      ["PreToolUse", "Antes de uma ferramenta rodar. Ideal para bloquear comandos perigosos."],
+      ["PostToolUse", "Depois de uma ferramenta rodar. Ideal para lint, format ou validações."],
+      ["Notification", "Quando Claude precisa de input ou permissão. Ideal para som ou notificação desktop."]
+    ],
+    example: "Exemplos úteis:\n- Notification: tocar som quando Claude pedir permissão\n- PreToolUse: bloquear rm -rf, deploy ou migration destrutiva\n- PostToolUse: rodar phpcs/eslint depois de editar arquivo\n\nSom simples no terminal:\necho -e \"\\a\"",
+    docs: [["Hooks reference", "https://docs.anthropic.com/en/docs/claude-code/hooks"], ["Hooks guide", "https://docs.anthropic.com/en/docs/claude-code/hooks-guide"]]
+  },
+  skills: {
+    title: "Skills",
+    text: "Skills empacotam procedimentos repetíveis. Use skill quando você percebe que está colando o mesmo checklist, fluxo ou instrução em toda conversa.",
+    matrix: [
+      ["Prompt", "Bom para pedido pontual."],
+      ["CLAUDE.md", "Bom para regras permanentes e fatos sobre o projeto."],
+      ["Skill", "Bom para procedimento reutilizável: review, PRD, Jira, debugging, regras do legado."]
+    ],
+    example: "Estrutura:\n~/.claude/skills/\n  pr-review-diff/\n    SKILL.md\n\nUso:\n/pr-review-diff",
+    docs: [["Skills docs", "https://docs.anthropic.com/en/docs/claude-code/skills"]]
+  },
+  agents: {
+    title: "Subagents",
+    text: "Subagents permitem delegar trabalho para agentes especializados com prompt, ferramentas e contexto próprios.",
+    matrix: [
+      ["Legacy Investigator", "Lê o legado e volta com padrões encontrados."],
+      ["PR Reviewer", "Analisa diff, riscos e testes recomendados."],
+      ["QA Challenger", "Procura cenários quebrados e edge cases."]
+    ],
+    example: "Exemplo:\n'use um subagent para investigar como o fluxo de cobrança trata split e traga apenas um resumo com arquivos relevantes.'",
+    docs: [["Subagents docs", "https://docs.anthropic.com/en/docs/claude-code/sub-agents"]]
+  },
+  mcp: {
+    title: "MCP",
+    text: "MCP conecta Claude Code a ferramentas externas e fontes de contexto, como Jira, GitHub, Confluence ou sistemas internos.",
+    matrix: [
+      ["HTTP", "Transporte recomendado para servidores remotos."],
+      ["Local stdio", "Bom para ferramentas locais e scripts internos."],
+      ["Escopo", "Conecte só o necessário para não aumentar contexto e risco."]
+    ],
+    example: "Exemplo conceitual:\nclaude mcp add --transport http notion https://mcp.notion.com/mcp\n\nUso interno possível:\n- Jira para cards\n- Confluence para documentação\n- GitHub para PRs/issues",
+    docs: [["MCP docs", "https://docs.anthropic.com/en/docs/claude-code/mcp"]]
+  },
+  compact: {
+    title: "/compact",
+    text: "Compacta a conversa para reduzir ruído e manter a sessão utilizável. Útil quando a conversa ficou longa ou a análise já terminou.",
+    matrix: [
+      ["Quando usar", "Depois de alinhar decisões e antes de implementar."],
+      ["Quando evitar", "No meio de investigação onde detalhes ainda são importantes."],
+      ["Alternativa", "Transformar decisões em PRD/spec/plan."]
+    ],
+    example: "Comando:\n/compact\n\nUso recomendado:\n1. Finalizou análise.\n2. Registrou decisões em arquivo.\n3. Rodou /compact.\n4. Continuou com implementação.",
+    docs: [["Troubleshooting", "https://docs.anthropic.com/en/docs/claude-code/troubleshooting"]]
+  },
+  cli: {
+    title: "CLI automation",
+    text: "Claude Code pode ser usado em modo não interativo com print mode, útil para automações de análise, revisão e logs.",
+    matrix: [
+      ["Leitura", "Resumo de logs, análise de diffs, diagnóstico de erro."],
+      ["Controle", "Use flags como --max-turns e --max-budget-usd em automações."],
+      ["Cuidado", "Comece com automações de análise antes de permitir escrita."]
+    ],
+    example: "Exemplos:\nclaude -p \"Revise o diff atual e liste riscos\"\nclaude -p --max-turns 3 \"Resuma este log e indique hipóteses\"\nclaude --mcp-config ./mcp.json",
+    docs: [["CLI reference", "https://docs.anthropic.com/en/docs/claude-code/cli-reference"]]
+  },
+  context: {
+    title: "Context Engineering",
+    text: "O resultado do Claude depende do contexto disponível: prompt, arquivos, CLAUDE.md, memory, skills, MCP, PRD, spec e plan.",
+    matrix: [
+      ["Contexto fixo", "CLAUDE.md, settings, skills, regras do projeto."],
+      ["Contexto da tarefa", "PRD, spec, plan, tasks, arquivos relevantes."],
+      ["Contexto externo", "MCP, Jira, docs, PRs, issues e logs."]
+    ],
+    example: "Fórmula prática:\nPrompt bom\n+ CLAUDE.md enxuto\n+ skill certa\n+ PRD/spec/plan\n+ arquivos relevantes\n= resposta melhor",
+    docs: [["Memory docs", "https://docs.anthropic.com/en/docs/claude-code/memory"], ["Skills docs", "https://docs.anthropic.com/en/docs/claude-code/skills"]]
+  },
+  costs: {
+    title: "Custos, contexto e cache",
+    text: "Custo e performance dependem de input, output, ferramentas, MCPs carregados e reaproveitamento de contexto.",
+    matrix: [
+      ["Reduzir input", "Não cole contexto gigante se ele pode virar arquivo versionado."],
+      ["Reduzir MCP desnecessário", "Desative servidores que não estão em uso."],
+      ["Reaproveitar contexto", "Use artefatos estáveis: PRD, spec, plan, CLAUDE.md e skills."]
+    ],
+    example: "Boas práticas:\n- manter CLAUDE.md direto\n- deixar procedimentos longos em skills\n- desligar MCP não usado\n- compactar sessões longas",
+    docs: [["Costs docs", "https://docs.anthropic.com/en/docs/claude-code/costs"]]
+  }
 };
 
 const advancedTitle = document.getElementById("advancedTitle");
 const advancedText = document.getElementById("advancedText");
 const advancedExample = document.getElementById("advancedExample");
+const advancedMatrix = document.getElementById("advancedMatrix");
+const advancedDocs = document.getElementById("advancedDocs");
 
 function selectAdvanced(key) {
   const item = advanced[key];
-  advancedTitle.textContent = item[0];
-  advancedText.textContent = item[1];
-  advancedExample.textContent = item[2];
+  advancedTitle.textContent = item.title;
+  advancedText.textContent = item.text;
+  advancedExample.textContent = item.example;
+
+  advancedMatrix.innerHTML = item.matrix.map(([title, text]) => `
+    <div class="matrix-card">
+      <strong>${title}</strong>
+      <span>${text}</span>
+    </div>
+  `).join("");
+
+  advancedDocs.innerHTML = "Referências: " + item.docs.map(([label, url]) =>
+    `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+  ).join(" · ");
 
   document.querySelectorAll(".advanced-tab").forEach(button => {
     button.classList.toggle("active", button.dataset.advanced === key);
   });
 }
-
 document.querySelectorAll(".advanced-tab").forEach(button => {
   button.addEventListener("click", () => selectAdvanced(button.dataset.advanced));
 });
-
-if (advancedTitle) {
-  selectAdvanced("sandbox");
-}
-
+selectAdvanced("sandbox");
 
 document.getElementById("copyPrompt").addEventListener("click", async () => {
   const button=document.getElementById("copyPrompt");
