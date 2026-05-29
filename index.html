@@ -77,6 +77,30 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
   .prompt .copy{position:static;margin-bottom:16px}
   .prompt pre{padding-right:0}
 }
+
+.advanced-tab {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color: var(--muted);
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.advanced-tab.active,
+.advanced-tab:hover {
+  background: var(--secondary);
+  color: #06110d;
+}
+.advanced-panel pre {
+  margin-top: 22px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  overflow: auto;
+}
+
 </style>
 </head>
 <body>
@@ -86,6 +110,7 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
   <a href="#speckit">Speckit</a>
   <a href="#skills">Skills</a>
   <a href="#resources">Resources</a>
+  <a href="#avancado">Avançado</a>
   <a href="#playbook">Playbook</a>
 </nav>
 
@@ -180,6 +205,49 @@ code{display:inline-flex;padding:8px 10px;border-radius:10px;background:rgba(23,
   </div>
 </section>
 
+
+<section class="section" id="avancado">
+  <span class="tag">Claude Code avançado</span>
+  <h2>Recursos que transformam o Claude Code em ambiente operacional.</h2>
+  <p>Depois que o time entende SDD e Speckit, o próximo salto é dominar segurança, contexto, automação e reutilização. Esses recursos ajudam o Claude Code a trabalhar com mais autonomia sem virar uma caixa-preta.</p>
+
+  <div class="pipeline">
+    <button class="advanced-tab active" data-advanced="sandbox">/sandbox</button>
+    <button class="advanced-tab" data-advanced="memory">Memory</button>
+    <button class="advanced-tab" data-advanced="hooks">Hooks</button>
+    <button class="advanced-tab" data-advanced="permissions">Permissions</button>
+    <button class="advanced-tab" data-advanced="compact">/compact</button>
+    <button class="advanced-tab" data-advanced="agents">Agents</button>
+    <button class="advanced-tab" data-advanced="mcp">MCP</button>
+    <button class="advanced-tab" data-advanced="cache">Cache</button>
+    <button class="advanced-tab" data-advanced="automation">CLI automation</button>
+  </div>
+
+  <div class="panel advanced-panel">
+    <h3 id="advancedTitle"></h3>
+    <p id="advancedText"></p>
+    <pre id="advancedExample"></pre>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Quando ensinar isso ao time?</h3>
+      <p>Depois que o time já estiver usando PRD, Speckit e revisão de diff. Esses recursos são mais úteis quando existe um processo mínimo.</p>
+    </article>
+
+    <article class="card">
+      <h3>O que muda na prática?</h3>
+      <p>O Claude deixa de ser só “um chat que escreve código” e passa a operar com memória, regras, automações, isolamento e ferramentas externas.</p>
+    </article>
+
+    <article class="card">
+      <h3>Risco principal</h3>
+      <p>Automatizar sem critério. Quanto mais autonomia, mais importante é ter sandbox, hooks, permissions e revisão de diff.</p>
+    </article>
+  </div>
+</section>
+
+
 <section class="section" id="playbook">
   <span class="tag">Uso no dia a dia</span>
   <h2>Prompt base para iniciar uma demanda.</h2>
@@ -268,6 +336,79 @@ document.querySelectorAll("[data-preview]").forEach(button=>button.addEventListe
 }));
 document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
 modal.addEventListener("click",event=>{ if(event.target===modal) modal.classList.remove("open"); });
+
+
+const advanced = {
+  sandbox: [
+    "/sandbox",
+    "Serve para executar comandos em um ambiente mais controlado, reduzindo risco de alterações indevidas no filesystem ou acesso desnecessário à rede. É útil quando o Claude precisa testar comandos, explorar scripts ou rodar validações sem ganhar liberdade total no projeto.",
+    "Exemplo de uso:\n/sandbox\n\nQuando usar:\n- antes de rodar comandos desconhecidos\n- ao testar scripts gerados pela IA\n- em spikes de investigação\n- quando o time quer mais segurança sem travar completamente o fluxo"
+  ],
+  memory: [
+    "Memory e CLAUDE.md",
+    "Memória é o contexto persistente que orienta o Claude entre sessões. O CLAUDE.md deve conter padrões do projeto, comandos úteis, arquitetura, regras de segurança e checklists. Isso evita repetir instruções toda vez.",
+    "Exemplo de CLAUDE.md:\n# Projeto\n- PHP 7.2\n- Zend Framework 1\n- Não modernizar código legado sem autorização\n- Sempre buscar exemplo parecido antes de implementar\n\n# Comandos úteis\n- composer test\n- npm run lint\n\n# Regras\n- Não executar migrations destrutivas\n- Revisar diff antes de finalizar"
+  ],
+  hooks: [
+    "Hooks",
+    "Hooks são automações executadas antes ou depois de ações do Claude. Eles ajudam a padronizar segurança, validação e feedback. Podem rodar formatadores, linters, bloquear comandos perigosos ou emitir notificações sonoras.",
+    "Exemplos práticos:\n- tocar som quando Claude pedir permissão\n- rodar lint após editar arquivo\n- bloquear rm -rf, deploy ou migration destrutiva\n- registrar comandos executados\n\nIdeia simples:\necho -e \"\\a\"\n\nUso comum:\nnotificar quando o Claude Code estiver aguardando aprovação."
+  ],
+  permissions: [
+    "Permissions",
+    "Permissions definem até onde o Claude pode ir sem pedir confirmação. O time precisa entender a diferença entre autonomia produtiva e risco operacional. Nem tudo deve ser permitido automaticamente.",
+    "Boas práticas:\n- permitir leitura de arquivos do projeto\n- pedir aprovação para comandos destrutivos\n- revisar comandos que alteram banco ou ambiente\n- nunca liberar deploy automático sem processo\n- usar sandbox para comandos de investigação"
+  ],
+  compact: [
+    "/compact",
+    "Compacta o contexto da conversa para reduzir ruído e manter a sessão utilizável. É essencial em tarefas longas, principalmente quando o Claude já entendeu o problema e precisa continuar sem carregar todo o histórico bruto.",
+    "Quando usar:\n/compact\n\nUse quando:\n- a conversa ficou muito longa\n- o Claude começa a perder foco\n- você terminou a fase de análise e vai para implementação\n- quer preservar decisões principais e descartar ruído"
+  ],
+  agents: [
+    "Agents / Subagents",
+    "Agents permitem dividir responsabilidades. Em vez de pedir tudo ao mesmo agente, você pode ter um revisor, um planejador, um investigador de legado ou um testador crítico.",
+    "Exemplos de agentes:\n- Legacy Investigator: encontra exemplos no código\n- PR Reviewer: revisa diff e riscos\n- QA Challenger: pensa em cenários quebrados\n- Planner: transforma PRD em plano\n\nUso recomendado:\nDelegar análise complexa sem misturar tudo na mesma linha de raciocínio."
+  ],
+  mcp: [
+    "MCP",
+    "MCP conecta o Claude Code a ferramentas externas e fontes de contexto. Pode ser usado para integrar Jira, documentação, banco de conhecimento, GitHub, Slack e outros sistemas.",
+    "Exemplos de uso:\n- buscar contexto no Jira\n- consultar documentação interna\n- acessar issues ou PRs\n- conectar base de conhecimento do time\n\nRegra:\nconectar apenas ferramentas necessárias e com escopo de permissão bem definido."
+  ],
+  cache: [
+    "Prompt cache / contexto reaproveitável",
+    "Cache reduz repetição, custo e latência quando o mesmo contexto aparece várias vezes. Na prática, quanto mais o time padroniza CLAUDE.md, specs e skills, mais reaproveitável fica o contexto.",
+    "Boas práticas:\n- manter instruções estáveis em CLAUDE.md\n- evitar colar contexto gigante toda hora\n- transformar decisões em arquivos\n- usar PRD/spec/plan como fonte oficial\n- preferir artefatos versionados a conversa solta"
+  ],
+  automation: [
+    "CLI automation",
+    "Claude Code pode ser usado em automações via terminal, não só no modo interativo. Isso permite revisar diffs, resumir logs, analisar arquivos e criar fluxos repetíveis.",
+    "Exemplos conceituais:\nclaude -p \"Revise o diff atual e liste riscos\"\nclaude -p \"Leia este log e resuma possíveis causas\"\nclaude -p \"Gere checklist de teste para esta alteração\"\n\nUso recomendado:\ncomeçar com automações de leitura/análise antes de automatizar escrita de código."
+  ]
+};
+
+const advancedTitle = document.getElementById("advancedTitle");
+const advancedText = document.getElementById("advancedText");
+const advancedExample = document.getElementById("advancedExample");
+
+function selectAdvanced(key) {
+  const item = advanced[key];
+  advancedTitle.textContent = item[0];
+  advancedText.textContent = item[1];
+  advancedExample.textContent = item[2];
+
+  document.querySelectorAll(".advanced-tab").forEach(button => {
+    button.classList.toggle("active", button.dataset.advanced === key);
+  });
+}
+
+document.querySelectorAll(".advanced-tab").forEach(button => {
+  button.addEventListener("click", () => selectAdvanced(button.dataset.advanced));
+});
+
+if (advancedTitle) {
+  selectAdvanced("sandbox");
+}
+
 
 document.getElementById("copyPrompt").addEventListener("click", async () => {
   const button=document.getElementById("copyPrompt");

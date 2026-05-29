@@ -15,6 +15,7 @@ A apresentação cobre:
 - skills de contexto para projetos legados
 - fluxo de PRD, spec, plan, tasks, implement e review
 - packs de skills para download
+- módulo avançado de Claude Code: sandbox, hooks, memory, permissions, agents, MCP, cache e automações
 
 ## Estrutura
 
@@ -94,6 +95,22 @@ Depois abra o Claude Code dentro do projeto:
 ```bash
 claude
 ```
+
+## Módulo avançado
+
+A seção **Claude Code avançado** apresenta recursos que ajudam o time a operar com mais segurança e produtividade:
+
+- `/sandbox`
+- `CLAUDE.md` e memory
+- hooks
+- permissions
+- `/compact`
+- agents/subagents
+- MCP
+- cache
+- automações via CLI
+
+A ideia é mostrar que Claude Code não precisa ser usado apenas como chat de código. Ele pode funcionar como um ambiente operacional com contexto, regras, isolamento e automações.
 
 ## Stack
 
